@@ -119,11 +119,11 @@ void writeFile(std::string inFolder, std::string outFolder, std::string filename
   ofstream myfile;
   std::string ext = ".csv";
   myfile.open((outFolder+filename+ext).c_str());
-  myfile << "Tau_PT_sum,Tau_PT_dif,Tau_PT_1,Tau_PT_2,Tau_Mass_sum,Tau_Mass_dif,Tau_Mass_1,Tau_Mass_2,Tau_Ener_sum, Tau_Ener_1, Tau_Ener_2,Tau_Eta_dif,Tau_Eta_1,Tau_Eta_2,type,type_2,Miss_MET,Jet_PT_sum,Jet_PT_dif,Jet_PT_1,Jet_PT_2,Jet_Mass_sum,Jet_Mass_dif,Jet_Mass_1,Jet_Mass_2,Jet_Ener_sum,Jet_Ener_1,Jet_Ener_2,Jet_Eta_dif,Jet_Eta_1,Jet_Eta_2"<<endl;
+  myfile << "type,Tau_PT_sum,Tau_PT_dif,Tau_PT_1,Tau_PT_2,Tau_Mass_sum,Tau_Mass_dif,Tau_Mass_1,Tau_Mass_2,Tau_Ener_sum,Tau_Ener_1,Tau_Ener_2,Tau_Eta_dif,Tau_Eta_1,Tau_Eta_2,Miss_MET,Jet_PT_sum,Jet_PT_dif,Jet_PT_1,Jet_PT_2,Jet_Mass_sum,Jet_Mass_dif,Jet_Mass_1,Jet_Mass_2,Jet_Ener_sum,Jet_Ener_1,Jet_Ener_2,Jet_Eta_dif,Jet_Eta_1,Jet_Eta_2"<<endl;
 
   for (int sample_i = 0; sample_i < signalEntries; ++sample_i){
     treeSignal->GetEntry(sample_i);
-    myfile <<Tau_PT_sum<<","<<Tau_PT_dif<<","<<Tau_PT_1<<","<<Tau_PT_2<<","<<Tau_Mass_sum<<","<<Tau_Mass_dif<<","<<Tau_Mass_1<<","<<Tau_Mass_2<<","<<Tau_Ener_sum<<","<< Tau_Ener_1<<","<< Tau_Ener_2<<","<<Tau_Eta_dif<<","<<Tau_Eta_1<<","<<Tau_Eta_2<<","<<type<<","<<type_2<<","<<Miss_MET<<","<<Jet_PT_sum<<","<<Jet_PT_dif<<","<<Jet_PT_1<<","<<Jet_PT_2<<","<<Jet_Mass_sum<<","<<Jet_Mass_dif<<","<<Jet_Mass_1<<","<<Jet_Mass_2<<","<<Jet_Ener_sum<<","<<Jet_Ener_1<<","<<Jet_Ener_2<<","<<Jet_Eta_dif<<","<<Jet_Eta_1<<","<<Jet_Eta_2<<endl;
+    myfile <<type<<","<<Tau_PT_sum<<","<<Tau_PT_dif<<","<<Tau_PT_1<<","<<Tau_PT_2<<","<<Tau_Mass_sum<<","<<Tau_Mass_dif<<","<<Tau_Mass_1<<","<<Tau_Mass_2<<","<<Tau_Ener_sum<<","<< Tau_Ener_1<<","<< Tau_Ener_2<<","<<Tau_Eta_dif<<","<<Tau_Eta_1<<","<<Tau_Eta_2<<","<<Miss_MET<<","<<Jet_PT_sum<<","<<Jet_PT_dif<<","<<Jet_PT_1<<","<<Jet_PT_2<<","<<Jet_Mass_sum<<","<<Jet_Mass_dif<<","<<Jet_Mass_1<<","<<Jet_Mass_2<<","<<Jet_Ener_sum<<","<<Jet_Ener_1<<","<<Jet_Ener_2<<","<<Jet_Eta_dif<<","<<Jet_Eta_1<<","<<Jet_Eta_2<<endl;
     
     if(!(sample_i%500)){
       cout << "Entryi : "<< sample_i << endl;

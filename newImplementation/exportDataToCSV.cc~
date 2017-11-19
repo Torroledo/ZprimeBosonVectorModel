@@ -2,34 +2,29 @@
 #include <algorithm>
 #include <time.h>
 
-void export(std::string inFolder, std::string outFolder, std::string signal);
+void writeFile(std::string inFolder, std::string outFolder, std::string signal);
 void exportDataToCSV(){
 
   // 1. Load each Tree individually 
   std::string inFolder = "randomSampleNoCuts/";
 
-  std::string signal2 = "signal_0p5TeV.root";
-  std::string signal3 = "signal_1p0TeV.root";
-  std::string signal4 = "signal_1p25TeV.root";
-  std::string signal5 = "signal_2p0TeV.root";
+  std::string signal2 = "joined_signal_0p5TeV.root";
+  std::string signal3 = "joined_signal_1p0TeV.root";
+  std::string signal4 = "joined_signal_1p25TeV.root";
+  std::string signal5 = "joined_signal_2p0TeV.root";
     
-  export(inFolder, inFolder, signal2);
-  export(inFolder, inFolder, signal3);
-  export(inFolder, inFolder, signal4);
-  export(inFolder, inFolder, signal5);
+  writeFile(inFolder, inFolder, signal2);
+  writeFile(inFolder, inFolder, signal3);
+  writeFile(inFolder, inFolder, signal4);
+  writeFile(inFolder, inFolder, signal5);
 }
  
-void export(std::string inFolder, std::string outFolder, std::string filename){
+void writeFile(std::string inFolder, std::string outFolder, std::string filename){
   
   // Loading signal data from .root file       
   TFile* signalFile1 = new TFile((inFolder + filename).c_str());
   TTree* treeSignal = (TTree *) signalFile1->Get("totalSimulation");
-  TFile* backFile1 = new TFile((inFolder + back1).c_str());
-  TTree* treeBack1 = (TTree *) backFile1->Get("totalSimulation");  
-  TFile* backFile2 = new TFile((inFolder + back2).c_str());
-  TTree* treeBack2 = (TTree *) backFile2->Get("totalSimulation");
-  std::string prefix = "joined_";
-  
+    
   // INPUT VARIABLES && OUTPUT VARIABLES
   // Declaring TAUS variables
   Int_t Tau_Charge, Tau_Charge_1, Tau_Charge_2;
@@ -123,56 +118,16 @@ void export(std::string inFolder, std::string outFolder, std::string filename){
 
   ofstream myfile;
   std::string ext = ".csv";
-  myfile.open((filename+ext).c_str());
-  myfile << "Tau_PT_sum,Tau_PT_dif,Tau_PT_1,Tau_PT_2,Tau_Mass_sum,Tau_Mass_dif,Tau_Mass_1,Tau_Mass_2,Tau_Ener_sum, Tau_Ener_1, Tau_Ener_2,Tau_Eta_dif,Tau_Eta_1,Tau_Eta_2,type,type_2,Miss_MET,Jet_PT_sum,Jet_PT_dif,Jet_PT_1,Jet_PT_2,Jet_Mass_sum,Jet_Mass_dif,Jet_Mass_1,Jet_Mass_2,Jet_Ener_sum,Jet_Ener_1,Jet_Ener_2,Jet_Eta_dif,Jet_Eta_1,Jet_Eta_2"<<endl;
+  myfile.open((outFolder+filename+ext).c_str());
+  myfile << "type,Tau_PT_sum,Tau_PT_dif,Tau_PT_1,Tau_PT_2,Tau_Mass_sum,Tau_Mass_dif,Tau_Mass_1,Tau_Mass_2,Tau_Ener_sum,Tau_Ener_1,Tau_Ener_2,Tau_Eta_dif,Tau_Eta_1,Tau_Eta_2,Miss_MET,Jet_PT_sum,Jet_PT_dif,Jet_PT_1,Jet_PT_2,Jet_Mass_sum,Jet_Mass_dif,Jet_Mass_1,Jet_Mass_2,Jet_Ener_sum,Jet_Ener_1,Jet_Ener_2,Jet_Eta_dif,Jet_Eta_1,Jet_Eta_2"<<endl;
 
   for (int sample_i = 0; sample_i < signalEntries; ++sample_i){
     treeSignal->GetEntry(sample_i);
-    myfile << "Tau_PT_sum"<<","<<Tau_PT_dif<<","<<Tau_PT_1<<","<<Tau_PT_2<<","<<Tau_Mass_sum<<","<<Tau_Mass_dif<<","<<Tau_Mass_1<<","<<Tau_Mass_2<<","<<Tau_Ener_sum<<","<< Tau_Ener_1<<","<< Tau_Ener_2<<","<<Tau_Eta_dif<<","<<Tau_Eta_1<<","<<Tau_Eta_2<<","<<type<<","<<type_2<<","<<Miss_MET<<","<<Jet_PT_sum<<","<<Jet_PT_dif<<","<<Jet_PT_1<<","<<Jet_PT_2<<","<<Jet_Mass_sum<<","<<Jet_Mass_dif<<","<<Jet_Mass_1<<","<<Jet_Mass_2<<","<<Jet_Ener_sum<<","<<Jet_Ener_1<<","<<Jet_Ener_2<<","<<Jet_Eta_dif<<","<<Jet_Eta_1<<","<<Jet_Eta_2<<endl;
+    myfile <<type<<","<<Tau_PT_sum<<","<<Tau_PT_dif<<","<<Tau_PT_1<<","<<Tau_PT_2<<","<<Tau_Mass_sum<<","<<Tau_Mass_dif<<","<<Tau_Mass_1<<","<<Tau_Mass_2<<","<<Tau_Ener_sum<<","<< Tau_Ener_1<<","<< Tau_Ener_2<<","<<Tau_Eta_dif<<","<<Tau_Eta_1<<","<<Tau_Eta_2<<","<<","<<Miss_MET<<","<<Jet_PT_sum<<","<<Jet_PT_dif<<","<<Jet_PT_1<<","<<Jet_PT_2<<","<<Jet_Mass_sum<<","<<Jet_Mass_dif<<","<<Jet_Mass_1<<","<<Jet_Mass_2<<","<<Jet_Ener_sum<<","<<Jet_Ener_1<<","<<Jet_Ener_2<<","<<Jet_Eta_dif<<","<<Jet_Eta_1<<","<<Jet_Eta_2<<endl;
     
     if(!(sample_i%500)){
       cout << "Entryi : "<< sample_i << endl;
     }
   }
-
-  // back1                                                                       
-  cout << "Selecting from Background 1"<< endl;
-  for (int sample_i = 0; sample_i < sample_size; ++sample_i){
-    entry = distribution1(generator);
-    entries1[sample_i] = entry;
-    
-     h1->Fill(entry);
-     treeBack1->GetEntry(entry);
-     totalSimulation->Fill();
-    
-    if(!(sample_i%100)){
-      cout << "Sample_i : "<< sample_i << " Entry : " << entry << endl;
-    } 
-    // cout << "Tau_PT_sum : " << Tau_PT_sum << endl;
-  }
-  // back2           
-  cout << "Selecting from Background 2" << endl;
-  for (int sample_i = 0; sample_i < sample_size; ++sample_i){
-    entry = distribution2(generator);
-    entries2[sample_i] = entry;
-    
-    h2->Fill(entry);
-    treeBack2->GetEntry(entry);
-    totalSimulation->Fill();
-
-    if(!(sample_i%100)){
-      cout << "Sample_i : "<< sample_i << " Entry : " << entry << endl;
-    }
-    // cout << "Tau_PT_sum : " << Tau_PT_sum << endl;
-  }
-  c1->cd(); h1->Draw();
-  c2->cd(); h2->Draw();
-  std::string writeTo1 = "sample_1.pdf";
-  std::string writeTo2 = "sample_2.pdf";
-
-  c1->Print((outFolder + filename + writeTo1).c_str());
-  c2->Print((outFolder + filename + writeTo2).c_str());
-  cout << totalSimulation->GetEntries() << " gotten entries " << endl;
-  finalData->Write();
-  finalData->Close();
+  myfile.close();
 }
